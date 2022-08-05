@@ -15,7 +15,7 @@
     "jsx": "preserve",
     "incremental": true,
     "types": ["node", "jest", "@testing-library/jest-dom"],
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@definitions/*": ["src/types/*"],
       "@definitions": ["src/types"],
