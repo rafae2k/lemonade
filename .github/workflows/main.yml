@@ -1,0 +1,178 @@
+name: CI/CD
+
+on: 
+  push: 
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  ESlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm package manager
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'pnpm'
+      
+      - name: Install dependencies  
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm lint
+
+  Tests:
+    runs-on: ubuntu-latest
+    needs: [ESLint]
+    steps:
+      - name: Fetch commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm package manager
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'pnpm'
+      
+      - name: Install dependencies  
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Tests
+        run: CI=true pnpm jest --coverage
+
+      - name: Generate coverage report
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  Build:
+    runs-on: ubuntu-latest
+    needs: [ESLint, Tests]
+    steps:
+      - name: Fetch commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm package manager
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'pnpm'
+      
+      - name: Install dependencies  
+        run: pnpm install --frozen-lockfile
+
+      - name: Build App
+        run: pnpm build
+
+  Deploy_Dev:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    environment:
+      name: Development
+      url: ${{ steps.deploy-dev.outputs.PREVIEW_URL }}
+    steps:
+      - name: Fetch commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm package manager
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'pnpm'
+      
+      - name: Install dependencies  
+        run: pnpm install --frozen-lockfile
+
+      - name: Deploy App to Development
+        id: deploy-dev
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}}
+          PRODUCTION: false
+          GITHUB_DEPLOYMENT_ENV: Development
+          DELETE_EXISTING_COMMENT: false
+  
+  Storybook:
+    runs-on: ubuntu-latest
+    environment:
+      name: Storybook
+      url: ${{ steps.storybook-deploy.outputs.PREVIEW_URL }}
+    steps:
+      - name: Fetch commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Deploy Storybook
+        id: storybook-deploy
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID}}
+          PRODUCTION: false
+          GITHUB_DEPLOYMENT_ENV: Storybook
+          DELETE_EXISTING_COMMENT: false
+
+  Deploy_Production:
+    needs: [ESLint, Tests, Build, Deploy_Dev]
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+
+    environment:
+      name: Production
+      url: ${{ steps.production-deploy.outputs.PREVIEW_URL }}
+
+    steps:
+      - name: Fetch commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Deploy App to Production
+        id: production-deploy
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} 
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID}} 
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID}} 
+          PRODUCTION: true
+          DELETE_EXISTING_COMMENT: false

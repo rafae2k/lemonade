@@ -1,0 +1,3 @@
+{
+  "*.{ts,tsx}": ["pnpm eslint src --fix", "pnpm test:staged"]
+}
