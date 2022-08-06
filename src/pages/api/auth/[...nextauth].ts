@@ -1,6 +1,6 @@
 import spotifyApi, { LOGIN_URL } from 'lib/spotify'
 import { NextApiRequest, NextApiResponse } from 'next'
-import NextAuth, { Account, NextAuthOptions, Profile, User } from 'next-auth'
+import NextAuth, { Account, NextAuthOptions } from 'next-auth'
 import SpotifyProvider from 'next-auth/providers/spotify'
 
 const refreshAccessToken = async (token: Account) => {
