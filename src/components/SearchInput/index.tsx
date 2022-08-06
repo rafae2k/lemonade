@@ -2,7 +2,7 @@ import { IoSearchOutline as SearchIcon } from 'react-icons/io5'
 import { BsArrowRightShort as ArrowRightIcon } from 'react-icons/bs'
 import { v4 as uuid } from 'uuid'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SearchItem from 'components/SearchItem'
 import { useArtistAutocomplete } from 'services/api/getArtists'
 import SearchContainer from 'components/SearchContainer'
@@ -14,17 +14,45 @@ const SearchInput = () => {
     setInput(e.target.value)
   }
 
-  const { data, isLoading } = useArtistAutocomplete(input)
+  const { data, isLoading, hasNextPage, fetchNextPage } =
+    useArtistAutocomplete(input)
+
+  useEffect(() => {
+    const onscroll = (e) => {
+      let fetching = false
+
+      const { scrollTop, scrollHeight, clientHeight } = e.target
+
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+        if (hasNextPage) {
+          fetching = true
+          fetchNextPage()
+          fetching = false
+        }
+      }
+    }
+
+    document
+      .getElementById('search-container')
+      ?.addEventListener('scroll', onscroll)
+
+    return () => {
+      document
+        .getElementById('search-container')
+        ?.removeEventListener('scroll', onscroll)
+    }
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-4">
       {/* SEARCH RESULTS CARD */}
-
-      <SearchContainer isLoading={isLoading}>
+      <SearchContainer isLoading={data === undefined && isLoading}>
         {data !== undefined &&
-          data.items.map((artist) => (
-            <SearchItem type="artist" artist={artist} key={uuid()} />
-          ))}
+          data.pages.map((page) =>
+            page.items.map((artist) => (
+              <SearchItem type="artist" artist={artist} key={uuid()} />
+            ))
+          )}
       </SearchContainer>
 
       {/* SEARCH INPUT */}
