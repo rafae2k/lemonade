@@ -1,6 +1,8 @@
+import { artistsState } from 'atoms/artists'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { FiPlus as PlusIcon } from 'react-icons/fi'
+import { useRecoilState } from 'recoil'
 import { Artist } from 'services/api/getArtists'
 
 type SearchItemProps = {
@@ -9,13 +11,18 @@ type SearchItemProps = {
 }
 
 const SearchItem = ({ type, artist }: SearchItemProps) => {
+  const [artists, setArtists] = useRecoilState(artistsState)
+
   const containerClass =
     'flex items-center gap-4 p-2 transition-colors duration-300 hover:bg-gray-100 rounded-xl sm:p-4'
 
   return (
     <>
       {type === 'artist' ? (
-        <div className={containerClass}>
+        <button
+          className={containerClass}
+          onClick={() => setArtists((v) => [...v, artist])}
+        >
           <div className="relative block w-20 h-20 overflow-hidden rounded-xl shrink-0">
             <Image
               src={
@@ -30,7 +37,7 @@ const SearchItem = ({ type, artist }: SearchItemProps) => {
           <h1 className="ml-4 overflow-hidden text-2xl font-bold w-fit text-ellipsis sm:text-4xl">
             {artist?.name}
           </h1>
-        </div>
+        </button>
       ) : (
         <div className={classNames(containerClass, 'justify-between')}>
           <div className="flex flex-col items-center justify-center w-20 h-20 p-2 text-center bg-green-300 shrink-0 sm:w-20 sm:h-20 rounded-xl">
