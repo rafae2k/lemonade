@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import useDebounce from 'hooks/useDebounce'
 import useSpotify from 'hooks/useSpotify'
 
@@ -30,17 +30,34 @@ export const useArtistAutocomplete = (input: string) => {
   const spotify = useSpotify()
   const debouncedValue = useDebounce(input, 500)
 
-  const { isLoading, data, error, refetch } = useQuery<ArtistsResponse, Error>(
-    ['get-artist-autocomplete', debouncedValue],
-    async () => {
-      const res: any = await spotify.searchArtists(debouncedValue)
-      return res.body.artists as ArtistsResponse
-    },
-    {
-      enabled: !!debouncedValue,
-      retry: false
-    }
-  )
+  const fetchArtists = async (value: string, offset: number) => {
+    const res: any = await spotify.searchArtists(value, {
+      limit: 10,
+      offset
+    })
+    return res.body.artists as ArtistsResponse
+  }
 
-  return { isLoading, data, refetch, error }
+  const options = {
+    enabled: !!debouncedValue,
+    retry: false
+  }
+
+  const { isLoading, data, error, refetch, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ['get-artist-autocomplete', debouncedValue],
+      async (offset) => await fetchArtists(debouncedValue, offset.pageParam),
+      {
+        ...options,
+        getNextPageParam: (lastPage) => {
+          const offset = lastPage.offset + 20
+          if (lastPage.total > offset) {
+            return offset
+          }
+          return undefined
+        }
+      }
+    )
+
+  return { isLoading, data, refetch, error, fetchNextPage, hasNextPage }
 }
