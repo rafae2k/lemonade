@@ -1,4 +1,5 @@
-import { Story, Meta } from '@storybook/react'
+import { Meta, Story } from '@storybook/react'
+
 import SearchInput from '.'
 export default {
   title: 'SearchInput',
