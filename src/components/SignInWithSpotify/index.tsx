@@ -1,23 +1,21 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { BsSpotify as SpotifyIcon } from 'react-icons/bs'
 import { IoCloseOutline as CloseIcon } from 'react-icons/io5'
 
 const SignInWithSpotify = () => {
   const { data, status } = useSession()
 
-  if (status === 'loading') {
-    return <div>Loading...</div>
-  }
-
-  if (status === 'unauthenticated') {
+  if (status === 'unauthenticated' || status === 'loading') {
     return (
       <button
         className="flex items-center justify-center p-4 transition-colors bg-green-500 rounded-full hover:bg-green-600"
         onClick={() => signIn('spotify')}
       >
         <SpotifyIcon className="mr-2 text-2xl text-white" />
-        <p className="text-sm font-medium text-white">Login with Spotify</p>
+        <p className="text-sm font-medium text-white">
+          {status === 'loading' ? 'Loading...' : 'Login with Spotify'}
+        </p>
       </button>
     )
   }
@@ -35,7 +33,9 @@ const SignInWithSpotify = () => {
           alt=""
           className="rounded-full"
         />
-        <p className="ml-2 text-base font-medium text-white">{data.user.id}</p>
+        <p className="ml-2 mr-2 overflow-hidden text-base font-medium text-white max-w-[10rem] text-ellipsis">
+          {data.user.name}
+        </p>
         <CloseIcon className="text-2xl text-white" />
       </button>
     )
