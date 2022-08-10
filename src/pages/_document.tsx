@@ -11,6 +11,11 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=optional"
             rel="stylesheet"
           />
+          {/* eslint-disable-next-line @next/next/no-title-in-document-head */}
+          <title>
+            Spotlist - Create a playlist based on the setlist of your favorite
+            artists shows
+          </title>
         </Head>
         <body>
           <Main />
