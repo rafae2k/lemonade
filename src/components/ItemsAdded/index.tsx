@@ -1,6 +1,4 @@
-import { setlistsState } from 'atoms/setlists'
 import Badge from 'components/Badge'
-import { useRecoilValue } from 'recoil'
 import { Setlist } from 'services/api/getSetlists'
 import { v4 as uuid } from 'uuid'
 
