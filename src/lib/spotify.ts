@@ -1,16 +1,9 @@
 import SpotifyWebApi from 'spotify-web-api-node'
 
 const scopes = [
-  'ugc-image-upload',
-  'user-follow-modify',
-  'playlist-read-collaborative',
   'playlist-modify-public',
   'playlist-read-private',
-  'playlist-modify-private',
-  'user-read-email',
-  'user-read-private',
-  'user-follow-modify',
-  'user-follow-read'
+  'playlist-modify-private'
 ].join(',')
 
 const params = {
