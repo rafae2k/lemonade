@@ -20,7 +20,6 @@ const refreshAccessToken = async (token: Account) => {
       refreshToken: refreshedToken.refresh_token ?? token.refreshToken
     }
   } catch (error) {
-    console.error(error)
     return {
       ...token,
       error
