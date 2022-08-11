@@ -1,6 +1,6 @@
 import { setlistsState } from 'atoms/setlists'
-import CreatePlaylistButton from 'components/CreatePlaylistButton'
 import ItemsAdded from 'components/ItemsAdded'
+import PlaylistNameModal from 'components/PlaylistNameModal'
 import SearchContainer from 'components/SearchContainer'
 import SearchInput from 'components/SearchInput'
 import SignInWithSpotify from 'components/SignInWithSpotify'
@@ -14,6 +14,7 @@ import RafoLogo from '../../public/rafo-logo.svg'
 
 const Home: NextPage = () => {
   const [random, setIsRandom] = useState(0)
+
   const l = ['🦆', '❤️']
 
   useEffect(() => {
@@ -29,9 +30,12 @@ const Home: NextPage = () => {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-x-hidden overflow-y-hidden bg-red-brand ">
+      <PlaylistNameModal />
+
       <div>
         <Toaster />
       </div>
+
       <div className="absolute top-5 right-5">
         <SignInWithSpotify />
       </div>
@@ -50,8 +54,6 @@ const Home: NextPage = () => {
 
         <div className="flex items-center justify-center w-full gap-2">
           <SearchInput />
-
-          <CreatePlaylistButton />
         </div>
       </div>
       <footer className="absolute bottom-0 flex items-center gap-2 text-xs font-thin text-white right-5">
