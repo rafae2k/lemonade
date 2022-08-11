@@ -1,6 +1,7 @@
 import { Bars, useLoading } from '@agney/react-loading'
 import { Transition } from '@headlessui/react'
 import { queryState } from 'atoms/query'
+import Animation from 'components/Animation'
 import SearchItem from 'components/SearchItem'
 import { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -43,18 +44,10 @@ const SearchContainer = () => {
   }, [])
 
   return (
-    <Transition
-      show={!!query}
-      enter="transition-all duration-300 ease-in"
-      enterFrom="opacity-0 scale-90 translate-y-4"
-      enterTo="opacity-100 scale-100"
-      leave="transition-opacity duration-300"
-      leaveFrom="opacity-100 scale-100"
-      leaveTo="opacity-0 scale-90 translate-y-4"
-    >
+    <Animation show={!!query}>
       <div
         id="search-container"
-        className={`flex flex-col overflow-y-auto w-full max-w-4xl gap-2 p-2 bg-white rounded-3xl sm:p-8 max-h-[65vh] sm:gap-4 scrollbar-hide
+        className={`flex flex-col overflow-y-auto gap-2 m-2 max-w-[72rem] bg-white rounded-3xl sm:p-8 max-h-[65vh] sm:gap-4 scrollbar-hide
       ${isLoading ? 'justify-center items-center' : ''}
       ${
         !isLoading && query && data === undefined
@@ -77,7 +70,7 @@ const SearchContainer = () => {
           </h3>
         )}
       </div>
-    </Transition>
+    </Animation>
   )
 }
 
