@@ -43,7 +43,8 @@ const Home: NextPage = () => {
       <div className="flex flex-col items-center justify-center gap-8">
         <h1 className="font-bold text-white text-8xl">Lemonade 🍋</h1>
         <h2 className="text-2xl font-thin text-center text-white ">
-          Create a playlist based on the setlist of your favorite artists shows
+          Create a playlist based on the setlist of your favorite artist&apos;s
+          shows
         </h2>
       </div>
 
