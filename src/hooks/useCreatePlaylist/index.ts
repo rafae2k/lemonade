@@ -15,17 +15,10 @@ export const useCreatePlaylist = () => {
   const createPlaylist = async (playlistName: string) => {
     setQuery('')
 
-    // if (session?.user.id === 'rafae2k') {
-    //   const isFollowingMe = await spotify.isFollowingUsers(['rafae2k'])
-    //   if (!isFollowingMe.body[0]) {
-    //     await spotify.followUsers(['rafae2k'])
-    //   }
-    // }
-
     const {
       body: { id }
     } = await spotify.createPlaylist(playlistName, {
-      description: `My ${playlistName} setlist created with Spotlist app 🦆 (https://spotlist-eta.vercel.app)`,
+      description: `My ${playlistName} setlist created with Lemonade app 🦆 (https://spotlist-eta.vercel.app)`,
       public: true
     })
 

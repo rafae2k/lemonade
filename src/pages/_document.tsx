@@ -13,8 +13,8 @@ export default class MyDocument extends Document {
           />
           {/* eslint-disable-next-line @next/next/no-title-in-document-head */}
           <title>
-            Spotlist - Create a playlist based on the setlist of your favorite
-            artists shows
+            Lemonade 🍋 - Create a playlist based on the setlist of your
+            favorite artists shows
           </title>
         </Head>
         <body>

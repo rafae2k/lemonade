@@ -41,7 +41,7 @@ const Home: NextPage = () => {
       </div>
 
       <div className="flex flex-col items-center justify-center gap-8">
-        <h1 className="font-bold text-white text-8xl">Spotlist</h1>
+        <h1 className="font-bold text-white text-8xl">Lemonade 🍋</h1>
         <h2 className="text-2xl font-thin text-center text-white ">
           Create a playlist based on the setlist of your favorite artists shows
         </h2>
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
       </div>
       <footer className="absolute bottom-0 flex items-center gap-2 text-xs font-thin text-white right-5">
         {`Made with ${l[random]}  by`}
-        <a href="#">
+        <a href="https://github.com/rafae2k">
           <Image src={RafoLogo} alt="Rafo logo" height={30} width={30} />
         </a>
       </footer>
