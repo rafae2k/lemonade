@@ -13,6 +13,10 @@ export const useCreatePlaylist = () => {
   const { data: session } = useSession()
 
   const createPlaylist = async (playlistName: string) => {
+    if (!session) {
+      return toast.error('You must be logged in to create a playlist 🤔')
+    }
+
     setQuery('')
 
     const {
