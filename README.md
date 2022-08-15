@@ -175,4 +175,4 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [issues-url]: https://github.com/rafae2k/lemonade/issues
 [license-shield]: https://img.shields.io/github/license/rafae2k/lemonade.svg?style=for-the-badge
 [license-url]: https://github.com/rafae2k/lemonade/blob/main/LICENSE.txt
-[product-screenshot]: docs/assets/app-demo.png
+[product-screenshot]: docs/assets/app-demo.gif
