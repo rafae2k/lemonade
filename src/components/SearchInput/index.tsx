@@ -2,6 +2,8 @@ import { Transition } from '@headlessui/react'
 import { modalState } from 'atoms/modal'
 import { queryState } from 'atoms/query'
 import { setlistsState } from 'atoms/setlists'
+import { useSession } from 'next-auth/react'
+import toast from 'react-hot-toast'
 import { BsArrowRightShort as ArrowRightIcon } from 'react-icons/bs'
 import { IoSearchOutline as SearchIcon } from 'react-icons/io5'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -10,6 +12,14 @@ const SearchInput = () => {
   const [query, setQuery] = useRecoilState(queryState)
   const [, setIsModalOpen] = useRecoilState(modalState)
   const setlists = useRecoilValue(setlistsState)
+  const { data: session } = useSession()
+
+  const handleClickCretePlaylist = () => {
+    if (!session) {
+      return toast.error('You must be logged in to create a playlist 🤔')
+    }
+    setIsModalOpen(true)
+  }
 
   return (
     <div className="flex items-center justify-between w-full max-w-6xl gap-2 px-4 transition-colors rounded-full bg-red-light focus-within:bg-black">
@@ -33,7 +43,7 @@ const SearchInput = () => {
         leaveTo="opacity-0 scale-90 translate-y-4"
       >
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleClickCretePlaylist}
           className="p-2 transition-all bg-white border border-white rounded-full hover:bg-transparent hover:border-white"
         >
           <ArrowRightIcon className="text-4xl text-black hover:text-white " />

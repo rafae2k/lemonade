@@ -26,7 +26,7 @@ const PlaylistNameModal = () => {
           leaveTo="opacity-0 scale-90 translate-y-4"
         >
           <div className="relative max-w-md p-6 m-auto bg-white shadow-2xl ring-2 ring-gray-300/20 rounded-2xl">
-            <Dialog.Title className="mb-12 text-4xl font-bold">
+            <Dialog.Title className="mb-12 text-3xl font-bold sm:text-4xl">
               Give your playlist a name! 👻
             </Dialog.Title>
             <button onClick={() => setIsModalOpen(false)}>

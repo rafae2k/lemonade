@@ -3,6 +3,8 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { BsSpotify as SpotifyIcon } from 'react-icons/bs'
 import { IoCloseOutline as CloseIcon } from 'react-icons/io5'
 
+import userImagePlaceholder from '../../../public/user-placeholder.svg'
+
 const SignInWithSpotify = () => {
   const { data, status } = useSession()
 
@@ -29,8 +31,8 @@ const SignInWithSpotify = () => {
         <Image
           width={40}
           height={40}
-          src={data.user.image as string}
-          alt=""
+          src={(data.user.image as string) || userImagePlaceholder}
+          alt={data.user.name as string}
           className="rounded-full"
         />
         <p className="ml-2 mr-2 overflow-hidden text-base font-medium text-white max-w-[10rem] text-ellipsis">

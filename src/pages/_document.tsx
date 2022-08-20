@@ -16,6 +16,10 @@ export default class MyDocument extends Document {
             Lemonade - Create a playlist based on the setlist of your favorite
             artists shows
           </title>
+          <meta
+            name="description"
+            content="Lemonade helps you to create a playlist based on the setlist of your favorite artist's shows."
+          />
         </Head>
         <body>
           <Main />
