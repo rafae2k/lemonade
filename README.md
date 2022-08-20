@@ -82,7 +82,7 @@ I didn't find any app available for this, so I decided to create one 😅
 
 Vercel Deploy
 
-- [🍋 Lemonade Site - go make your lemonade! ](https://www.mylemonade.vercel.app)
+- [🍋 Lemonade Site - go make your lemonade! ](https://mylemonade.vercel.app)
 
 
 ### Prerequisites
