@@ -13,16 +13,12 @@ export const useCreatePlaylist = () => {
   const { data: session } = useSession()
 
   const createPlaylist = async (playlistName: string) => {
-    if (!session) {
-      return toast.error('You must be logged in to create a playlist 🤔')
-    }
-
     setQuery('')
 
     const {
       body: { id }
     } = await spotify.createPlaylist(playlistName, {
-      description: `My ${playlistName} setlist created with Lemonade app 🦆 (https://spotlist-eta.vercel.app)`,
+      description: `My ${playlistName} setlist created with Lemonade app 🦆 (https://mylemonade.vercel.app)`,
       public: true
     })
 
@@ -39,7 +35,7 @@ export const useCreatePlaylist = () => {
           } = await spotify.searchTracks(
             `track:${s.name} artist:${a.artist.name}`,
             {
-              market: session?.user?.profile.country
+              market: session?.user?.profile.country || 'US'
             }
           )
 
@@ -59,7 +55,7 @@ export const useCreatePlaylist = () => {
         AsyncRetry(
           async () => await spotify.addTracksToPlaylist(id, trackIds),
           {
-            retries: 3
+            retries: 5
           }
         ),
         {
@@ -68,11 +64,11 @@ export const useCreatePlaylist = () => {
           error: 'Something went wrong, try again... 😞'
         }
       )
+
+      setSetlists([])
     } catch (error) {
       return
     }
-
-    setSetlists([])
   }
 
   return createPlaylist
