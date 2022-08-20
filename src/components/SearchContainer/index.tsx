@@ -47,8 +47,8 @@ const SearchContainer = () => {
     <Animation show={!!query}>
       <div
         id="search-container"
-        className={`flex flex-col overflow-y-auto gap-2 m-2 max-w-[72rem] bg-white rounded-3xl sm:p-8 max-h-[65vh] sm:gap-4 scrollbar-hide
-      ${isLoading ? 'justify-center items-center' : ''}
+        className={`flex flex-col overflow-y-auto gap-2 m-2 max-w-[72rem] bg-white rounded-3xl sm:p-8 max-h-[65vh] sm:gap-4 scrollbar-hide p-2
+      ${isLoading ? 'justify-center items-center p-4' : ''}
       ${
         !isLoading && query && data === undefined
           ? 'justify-center items-center'
@@ -63,8 +63,8 @@ const SearchContainer = () => {
                 <SearchItem setlist={setlist} key={uuid()} />
               ))
             )}
-        {!isLoading && query && (
-          <h3 className="overflow-hidden text-center w-60">
+        {!isLoading && !!query && !data?.pages[0].setlist.length && (
+          <h3 className="p-4 overflow-hidden text-center w-60">
             Nothing found... Are you sure you typed your favorite artist name
             correctly? 😭
           </h3>
