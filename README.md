@@ -6,6 +6,7 @@
 [![CI](https://github.com/rafae2k/lemonade/actions/workflows/main.yml/badge.svg)](https://github.com/rafae2k/lemonade/actions/workflows/main.yml)
 [![CodeQL](https://github.com/rafae2k/lemonade/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/rafae2k/lemonade/actions/workflows/codeql-analysis.yml)
 
+
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
